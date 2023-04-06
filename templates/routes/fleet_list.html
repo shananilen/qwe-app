@@ -1,0 +1,158 @@
+{% extends 'layouts/dashboard_layout.html' %}
+{% load static %}
+
+{% block main_title %}Fleet overview{% endblock %}
+{% block topnav_title %}
+<nav aria-label="Breadcrumb" class="breadcrumb">
+    <ul>
+        <li><span aria-current="page">Fleet List</span></li>
+    </ul>
+</nav>
+{% endblock %}
+
+{% block page_content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <a href="#">
+                    <button type="button" class="btn btn-secondary" data-mdb-toggle="modal" href="#add_vehicle" style="float: left">  <i class="fa-sharp fa-solid fa-circle-plus me-2"></i>Add Vehicle</button>
+                </a>
+            </div>
+
+            <div class="col-8" id="add_connection_col">
+                <a href="#">
+                    <button type="button" class="btn btn-secondary" data-mdb-toggle="modal" href="#create_fleet" style="float: right">  <i class="fa-sharp fa-solid fa-circle-plus me-2"></i>Fleet</button>
+                </a>
+            </div>
+        </div>
+        <br>
+        {% for i in fleets %}
+            <div class="card bordered_card">
+                <div class="card-body">
+                    <a href="#"><h6 class="connection_overview_header_text">{{ i.fleet_name }}</h6></a>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h6><label>Description - </label> {{ i.fleet_description }}</h6>
+                        </div>
+                        <div class="col-md-9">
+                            <h6><label>City - </label> {{ i.fleet_city_id.city_name }}</h6>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <br>
+        {% endfor %}
+
+        <!-- first model -->
+        <div class="modal fade" id="create_fleet" aria-hidden="true" aria-labelledby="fleet_select"
+            data-mdb-backdrop="static" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content p-4">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Create fleet</h5>
+                        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="save_fleet" method="post">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="form_boundary">
+                                    <div class="row mb-4">
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                <label for="txtfleetName" class="form-label">Fleet name</label>
+                                                <input type="text" class="form-control" id="txtfleetName" name="fleetname"
+                                                    placeholder="Fleet name">
+                                            </div>
+                                        </div>
+
+                                        <div class="col">
+                                            <label for="cityid" class="form-label">Fleet city</label>
+                                            <select class="form-select" id="cityid" name="cityid" aria-label="Default select example">
+                                                <option selected>Select city</option>
+                                                {% for i in cities %}
+                                                    <option value="{{i.id}}">{{i.city_name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="txtFleetDescription" class="form-label">Fleet description</label>
+                                        <textarea class="form-control" id="txtFleetDescription" name="description"
+                                            rows="3"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <button class="btn btn-secondary" type="submit" style="place-content: flex-end;">
+                                            Create
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </form>
+                    <div class="modal-footer" >
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- second model -->
+        <div class="modal fade" id="add_vehicle" aria-hidden="true" aria-labelledby="fleet_select"
+            data-mdb-backdrop="static" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content p-4">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add vehicles to fleet</h5>
+                        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="add_vehicles_to_fleet" method="post">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="form_boundary">
+                                    <div class="row mb-4">
+                                        <div class="col">
+                                            <label for="fleet_id" class="form-label">Fleet</label>
+                                            <select class="form-select" id="fleet_id" name="fleet_id" aria-label="Default select example">
+                                                <option selected>Select Fleet</option>
+                                                {% for i in fleets %}
+                                                    <option value="{{i.id}}">{{i.fleet_name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+
+                                        <div class="col">
+                                            <label for="vehicle_id" class="form-label">Vehicle</label>
+                                            <select class="form-select" id="vehicle_id" name="vehicle_id" aria-label="Default select example">
+                                                <option selected>Select vehicle</option>
+                                                {% for i in vehicles %}
+                                                    <option value="{{i.id}}">{{i.vehicle_number}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <button class="btn btn-secondary" type="submit" style="place-content: flex-end;">
+                                            Add
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </form>
+                    <div class="modal-footer" >
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,36 @@
+<style>
+    #sidebarMenu {
+        margin-top: 4em;
+    }
+
+    .side_nav_list {
+        margin-left: 1em;
+    }
+
+    .nav_bar_menu{
+        border-radius: 10px;
+    }
+
+
+</style>
+
+<nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
+    <div class="position-sticky">
+        <div class="list-group-item px-3 border-0 side_nav_list" id="myDIV">
+        <a class="nav_bar_menu"></a>
+            <a href="{% url 'routes_path' %}" class="list-group-item px-3 mb-3 border-0 nav_bar_menu" aria-current="true" id="nav_bar_user">
+                <i class="fa-solid fa-route me-2"></i><span>Routes</span>
+            </a>
+            <a href="{% url 'delivery_path' %}" class="list-group-item px-3 mb-3 border-0 nav_bar_menu" aria-current="true" id="nav_bar_user">
+                <i class="fa-sharp fa-solid fa-truck-fast me-2"></i><span>Deliveries</span>
+            </a>
+            {% block additional_nav_content %}
+
+
+            {% endblock %}
+
+
+        </div>
+    </div>
+</nav>
+

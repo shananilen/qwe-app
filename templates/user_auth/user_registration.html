@@ -1,0 +1,103 @@
+{% extends 'layouts/auth_layout.html' %}
+{% load static %}
+{% block main_title %}Registration{% endblock %}
+{% block auth_content_body %}
+
+    <div class="container" id="reg_main_container">
+            {% for msg in messages %}
+
+            {% if msg.tags == 'error' %}
+                {#                <div class="alert alert-danger alert-dismissible fade show" id="alert" role="alert">#}
+                {#                    <strong>{{ msg }}</strong>#}
+                {#                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>#}
+                {#                </div>#}
+                <div class="custom_alert_danger mt-3">
+                    <span class="closebtn_alert" onclick="this.parentElement.style.display='none';">&times;</span>
+                    <strong>{{ msg }}</strong>
+                </div>
+
+            {% else %}
+                <div class="custom_alert_success mt-3">
+                    <span class="closebtn_alert_success" onclick="this.parentElement.style.display='none';">&times;</span>
+                    <strong>{{ msg }}</strong>
+                </div>
+{#                <div class="alert alert-{{ msg.tags }} alert-dismissible fade show" id="alert" role="alert">#}
+{#                    <strong>{{ msg }}</strong>#}
+{##}
+{#                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>#}
+{#                </div>#}
+
+
+            {% endif %}
+
+        {% endfor %}
+
+        <div class="card shadow-none transparent_card" id="logo_container">
+            <h1>QWE Logistics App</h1>
+        </div>
+
+        <div class="card shadow-none transparent_card" id="reg_form_container">
+
+            <form method="POST" id="register_form">
+                {% csrf_token %}
+                <!-- 2 column grid layout with text inputs for the first and last names -->
+                <div class="row mb-4">
+                    <div class="col">
+                        <div class="form-outline">
+                            <input type="text" id="form3Example1" class="form-control" name="reg_form_firstname_input" />
+                            <label class="form-label" for="form3Example1">First name</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-outline">
+                            <input type="text" id="form3Example2" class="form-control" name="reg_page_lastname_input" />
+                            <label class="form-label" for="form3Example2">Last name</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Email input -->
+                <div class="form-outline mb-4">
+                    <input type="email" id="form3Example3" class="form-control" name="reg_form_email_input"/>
+                    <label class="form-label" for="form3Example3">Email address</label>
+                </div>
+
+                <!-- Password input -->
+                <div class="form-outline mb-4">
+                    <input type="password" id="form3Example4" class="form-control" name="reg_form_password_input"/>
+                    <label class="form-label" for="form3Example4">Password</label>
+                </div>
+
+                <!-- Password confirmation -->
+                <div class="form-outline mb-4">
+                    <input type="password" id="form3Example5" class="form-control" name="reg_form_confirm_pwd_input"/>
+                    <label class="form-label" for="form3Example4">Confirm password</label>
+                </div>
+
+                <div class="center_wrapper">
+                    <!-- Submit button -->
+                    <button type="submit" class="btn btn-primary btn-block mb-4 auth_btn" style="font-size: 1em">Sign up</button>
+                </div>
+
+
+
+
+            </form>
+
+            <div class="center_wrapper mt-2">
+                <!-- Submit button -->
+
+                <h6>Already have an account?</h6>
+
+            </div>
+
+                <a class="center_wrapper" href="{% url 'login_path' %}">
+                    Sign in
+                </a>
+
+        </div>
+    </div>
+
+
+
+{% endblock %}

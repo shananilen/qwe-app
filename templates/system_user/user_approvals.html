@@ -1,0 +1,108 @@
+{% extends 'layouts/dashboard_layout.html' %}
+{% load static %}
+{% block topnav_title %}User approvals{% endblock %}
+{% block main_title %} Approvals {% endblock %}
+{% block page_content %}
+
+    <div class="table-responsive">
+        <table class="table table-hover sortable table-borderless common_table">
+            <thead>
+            <tr class="common_tr">
+                <th></th>
+                <th aria-sort="ascending"><a>ID
+                    <i class="fa fa-angle-down" aria-hidden="true"></i></a></th>
+                <th></th>
+                <th></th>
+                <th aria-sort="ascending"><a>First Name
+                    <i class="fa fa-angle-down" aria-hidden="true"></i></a></th>
+                <th aria-sort="ascending"><a>Last Name
+                    <i class="fa fa-angle-down" aria-hidden="true"></i></a></th>
+                <th aria-sort="ascending"><a>Personal email
+                    <i class="fa fa-angle-down" aria-hidden="true"></i></a></th>
+                <th aria-sort="ascending" style="text-align: center"><a>Actions
+                    <i class="fa fa-angle-down" aria-hidden="true"></i></a></th>
+            </tr>
+            </thead>
+            <tbody class="bg-light">
+            {% for user in PENDING_USERS %}
+                <tr class="common_tr">
+                    <th scope="row"></th>
+                        <img src="{% static 'img/icons/user_profile.png' %}" width="30px">
+
+                    <th scope="row">{{ user.id }}</th>
+                    <td></td>
+                    <td></td>
+                    <td> {{ user.firstname}}</td>
+                    <td> {{ user.lastname}}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        <div class="row">
+                            <div class="col-12 center_wrapper">
+                                {#                                <button type="button" class="btn btn-success">Approve</button>#}
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-secondary" data-mdb-toggle="modal" data-mdb-target="#staticBackdrop{{ user.id }}">
+                                    <i class="fa-solid fa-user-gear me-2"></i>Manage Access                                </button>
+
+                                <!-- Modal -->
+                                <div
+                                        class="modal fade"
+                                        id="staticBackdrop{{ user.id }}"
+                                        data-mdb-backdrop="static"
+                                        data-mdb-keyboard="false"
+                                        tabindex="-1"
+                                        aria-labelledby="staticBackdropLabel"
+                                        aria-hidden="true"
+                                >
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="staticBackdropLabel">Approve {{ user.firstname }} {{ user.lastname }} ?</h5>
+                                                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+
+                                                <div class="dropdown">
+                                                    <form method="POST" action="{% url 'approve_user_with_group_path' user.id %}">
+                                                        {% csrf_token %}
+                                                    <h6>Select a role to assign</h6>
+                                                        <select class="form-select" aria-label="Default select example" name="group_name">
+                                                            <option value="">Select role</option>
+
+                                                            {% for group in GROUPS %}
+                                                                <option value="{{ group.name }}">{{ group.name }}</option>
+                                                            {% endfor %}
+
+                                                        </select>
+
+                                                        <div class="modal-footer center_wrapper">
+                                                            <button type="button" class="btn btn-danger" data-mdb-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-secondary">Approve</button>
+                                                        </div>
+                                                    </form>
+
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-4">
+                                {#                                <button type="button" class="btn btn-danger">Reject</button>#}
+
+
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+
+{% endblock %}

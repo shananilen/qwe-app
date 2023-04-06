@@ -1,0 +1,145 @@
+{% extends 'layouts/base_layout.html' %}
+{% load static %}
+{% block layout_body %}
+
+
+
+    <div class="card">
+        <div class="row g-0">
+
+            <div class="col-md-2 page_container_left">
+                <div class="card shadow-none left_col_top_header">
+                    <!-- Buttons trigger collapse -->
+                    <h4>QWE Logistics App</h4>
+
+                </div>
+                {% if user.groups.all.0.name == "ADMIN" %}
+                    {% include 'components/super_admin_sidenav.html'%}
+                {% else %}
+                    {% include 'components/side_navbar.html' %}
+                {% endif %}
+
+
+
+            </div>
+
+            <div class="col-md-10" style="background-color: #ececec">
+                <!-- Navbar -->
+                <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-none">
+                    <!-- Container wrapper -->
+                    <div class="container-fluid">
+                        <h6 class="top_nav_title" style="color: #56748F; margin: auto ">{% block topnav_title %}{% endblock %}</h6>
+
+                        <!-- Collapsible wrapper -->
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
+                        </div>
+                        <!-- Collapsible wrapper -->
+
+                        <!-- Right elements -->
+                        <div class="d-flex align-items-center top_bar_right_icons">
+                            <!-- Icon -->
+                            <a class="text-reset me-4" href="#">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </a>
+
+                            <!-- question -->
+                            <a class="text-reset me-4" href="#">
+                                <i class="fa-solid fa-circle-question"></i>
+                            </a>
+
+
+                            <!-- Notifications -->
+                            <div class="dropdown">
+                                <a
+                                        class="text-reset me-4 dropdown-toggle hidden-arrow"
+                                        href="#"
+                                        id="navbarDropdownMenuLink"
+                                        role="button"
+                                        data-mdb-toggle="dropdown"
+                                        aria-expanded="false"
+                                >
+                                    <i class="fas fa-bell"></i>
+                                    <span class="badge rounded-pill badge-notification bg-danger">1</span>
+                                </a>
+
+                            </div>
+                            <!-- Avatar -->
+                            <div class="dropdown">
+                                <a
+                                        class="dropdown-toggle d-flex align-items-center hidden-arrow"
+                                        id="navbarDropdownMenuAvatar"
+                                        href="#dropdown_avatar"
+                                        role="button"
+                                        data-mdb-toggle="dropdown"
+                                        aria-expanded="false"
+                                >
+                                    <img
+                                            src="{% static 'img/icons/user_profile.png' %}"
+                                            class="rounded-circle"
+                                            height="25"
+                                            alt="Black and White Portrait of a Man"
+                                            loading="lazy"
+                                    />
+                                </a>
+                                <ul
+                                        class="dropdown-menu dropdown-menu-end"
+                                        aria-labelledby="navbarDropdownMenuAvatar"
+                                        id="dropdown_avatar"
+                                >
+                                    <li>
+                                        <a class="dropdown-item" href="#">My profile</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">Settings</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'logout_path' %}">Logout</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Right elements -->
+                    </div>
+                    <!-- Container wrapper -->
+                </nav>
+                <div class="card shadow-none" style="border-radius: 0;">
+                    {% block additional_header %}{% endblock %}
+                </div>
+
+                <!-- Navbar -->
+                <div class="card-body card_content_body ">
+                    {% block page_content %}
+
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

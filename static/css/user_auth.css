@@ -1,0 +1,151 @@
+#auth_main_container{
+    /*background: linear-gradient(248.85deg, #5E6A74 -1.77%, #232C34 104.39%);*/
+    min-height: 100vh;
+    background-color: #EEF1F3;
+
+}
+
+#login_main_container{
+
+    background-color: white;
+    position: absolute; /*Can also be `fixed`*/
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    /*Solves a problem in which the content is being cut when the div is smaller than its' wrapper:*/
+    max-width: 45%;
+    max-height: 80%;
+    overflow: auto;
+    border-radius: 10px;
+
+
+}
+
+.auth_btn{
+    background:  linear-gradient(269.06deg, #185FC9 0.65%, #1975FF 99.71%);
+}
+
+#logo_container{
+    background-color: transparent;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    .center_wrapper{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #sephora_logo_img{
+        width: 30em;
+    }
+
+    #logo_container{
+        /*padding: 5em;*/
+        /*display: flex;*/
+        /*justify-content: center;*/
+        /*align-items: center;*/
+        /*display: flex;*/
+        /*justify-content: center;*/
+        /*align-items: center;*/
+        /*width: 100%;*/
+        /*display: table;*/
+        /*margin: 0 auto;*/
+    }
+    #login_form_container{
+        padding-left: 5em;
+        padding-right: 5em;
+    }
+    #reg_form_container{
+        padding-left: 2em;
+        padding-right: 2em;
+    }
+
+    #registration_page_wrapper{
+        /*min-height: 100vh;*/
+        /*padding: 5em;*/
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+
+    #reg_main_container{
+
+        background-color: white;
+        position: absolute; /*Can also be `fixed`*/
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        /*Solves a problem in which the content is being cut when the div is smaller than its' wrapper:*/
+        max-width: 45%;
+        max-height: 80%;
+        overflow: auto;
+        border-radius: 10px;
+
+
+
+    }
+
+    .center_wrapper{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #sephora_logo_img{
+        width: 30em;
+    }
+
+    #logo_container{
+        /*padding: 5em;*/
+        /*display: flex;*/
+        /*justify-content: center;*/
+        /*align-items: center;*/
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        padding: 3em;
+    }
+    #login_form_container{
+        padding-left: 8em;
+        padding-right: 8em;
+    }
+
+    #registration_page_wrapper{
+        /*min-height: 100vh;*/
+        /*padding: 4em;*/
+
+    }
+    #reg_form_container{
+        padding-left: 2em;
+        padding-right: 2em;
+    }
+
+
+}

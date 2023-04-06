@@ -1,0 +1,78 @@
+{% extends 'layouts/auth_layout.html' %}
+{% load static %}
+{% block auth_content_body %}
+
+
+    <div class="container" id="login_main_container">
+
+
+        {% for msg in messages %}
+
+            {% if msg.tags == 'error' %}
+                {#                <div class="alert alert-danger alert-dismissible fade show" id="alert" role="alert">#}
+                {#                    <strong>{{ msg }}</strong>#}
+                {#                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>#}
+                {#                </div>#}
+                <div class="custom_alert_danger mt-3">
+                    <span class="closebtn_alert" onclick="this.parentElement.style.display='none';">&times;</span>
+                    <strong>{{ msg }}</strong>
+                </div>
+
+            {% else %}
+                <div class="alert alert-{{ msg.tags }} alert-dismissible fade show" id="alert" role="alert">
+                    <strong>{{ msg }}</strong>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+
+            {% endif %}
+
+        {% endfor %}
+        <div class="card shadow-none transparent_card" id="logo_container">
+            <h2>QWE Logistics App</h2>
+        </div>
+
+        <div class="card shadow-none transparent_card" id="login_form_container">
+
+            <form method="POST" id="login_form">
+                {% csrf_token %}
+                <!-- Email input -->
+                <div class="form-outline mb-4">
+                    <input type="email" id="form1Example1" class="form-control" name="user_email"/>
+                    <label class="form-label" for="form1Example1">Email address</label>
+                </div>
+
+                <!-- Password input -->
+                <div class="form-outline mb-4">
+                    <input type="password" id="form1Example2" class="form-control" name="user_pwd" />
+                    <label class="form-label" for="form1Example2">Password</label>
+                </div>
+
+                <!-- 2 column grid layout for inline styling -->
+                <div class="row mb-4">
+
+                    {% if user.groups.all.0.name == "ADMIN" %}
+                        <div class="col">
+                            <!-- Simple link -->
+                            Don't have an account?<a href="{% url 'signup_path' %}"> Sign up</a>
+                        </div>
+                    {% else %}
+
+                    {% endif %}
+
+
+                </div>
+
+                <!-- Submit button -->
+                <button type="submit" class="btn btn-primary btn-block auth_btn" style="font-size: 1em">Log In</button>
+            </form>
+
+        </div>
+    </div>
+
+
+
+
+
+{% endblock %}

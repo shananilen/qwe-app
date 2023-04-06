@@ -1,0 +1,189 @@
+{% extends 'layouts/dashboard_layout.html' %}
+{% load static %}
+
+{% block main_title %}Delivery overview{% endblock %}
+{% block topnav_title %}
+<nav aria-label="Breadcrumb" class="breadcrumb">
+    <ul>
+        <li><span aria-current="page">Delivery List</span></li>
+    </ul>
+</nav>
+{% endblock %}
+
+{% block page_content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+
+            </div>
+
+            <div class="col-8" id="add_connection_col">
+
+            </div>
+        </div>
+        <br>
+        {% for i in vehicle_routes %}
+            <div class="card bordered_card">
+                <div class="card-body">
+                    <a href="#manage_deliveries{{i.id}}" data-mdb-toggle="modal" data-mdb-target="#manage_deliveries{{i.id}}"><h6 class="connection_overview_header_text">{{ i.vehicle_route_id.route_id.route_name }} - {{ i.vehicle_route_id.vehicle_id.vehicle_number }}</h6></a>
+                    <div class="row">
+                        <div class="col-md-3">
+                            {% for c in vehicle_routes %}
+                                {% if c.vehicle_route_id.id == i.id %}
+                                    <h6><label>Security team - </label> {{ c.securityteam_id.team_name   }}</h6>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-9">
+                            <div class="stepper">
+                             {% for c in route_status %}
+                                 {% for d in vehicle_routes %}
+                                     {% if d.vehicle_route_id.id == i.id %}
+                                         {% if d.route_status_id.id == c.id %}
+                                              <div class="step active">
+                                                <span class="step-number">{{ c.id }}</span>
+                                                <span class="step-text">{{ c.status_name }}</span>
+                                              </div>
+                                         {% else %}
+                                             <div class="step">
+                                                <span class="step-number">{{ c.id }}</span>
+                                                <span class="step-text">{{ c.status_name }}</span>
+                                             </div>
+                                         {% endif %}
+                                     {% endif %}
+                                 {% endfor %}
+                            {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        {% endfor %}
+
+        <!-- first model -->
+        <div class="modal fade" id="create_delivery" aria-hidden="true" aria-labelledby="delivery_select"
+            data-mdb-backdrop="static" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content p-4">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Create delivery</h5>
+                        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="save_delivery" method="post">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="form_boundary">
+                                    <div class="mb-3">
+                                        <label for="routeid" class="form-label">Route</label>
+                                        <select class="form-select" id="routeid" name="routeid" aria-label="Default select example">
+                                            <option selected>Select route</option>
+                                            {% for i in routes %}
+                                                <option value="{{i.id}}">{{i.route_name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="vehicleid" class="form-label">Select vehicle</label>
+                                        <select class="form-select" id="vehicleid" name="vehicleid" aria-label="Default select example">
+                                            <option selected>Select vehicle</option>
+                                            {% for i in vehicles %}
+                                                <option value="{{i.id}}">{{i.vehicle_number}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="securityid" class="form-label">Security team</label>
+                                        <select class="form-select" id="securityid" name="securityid" aria-label="Default select example">
+                                            <option selected>Select security team for vehicle</option>
+                                            {% for i in security_teams %}
+                                                <option value="{{i.id}}">{{i.team_name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <button class="btn btn-secondary" type="submit" style="place-content: flex-end;">
+                                            Create
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </form>
+                    <div class="modal-footer" >
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         <!-- second model -->
+        {% for i in vehicle_routes %}
+        <div class="modal fade" id="manage_deliveries{{i.id}}" aria-hidden="true" aria-labelledby="manage_deliveries{{i.id}}"
+            data-mdb-backdrop="static" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content p-4">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{ i.vehicle_route_id.route_id }} - {{ i.vehicle_route_id.vehicle_id.vehicle_number }}</h5>
+                        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="manage_deliveries" method="post">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="form_boundary">
+                                    <div class="row mb-4">
+                                        <div class="col">
+                                        <input type="hidden" id="vehicleroute_id" name="vehicleroute_id" value="{{ i.id }}">
+                                            <label for="route_status" class="form-label">Route status</label>
+                                            <select class="form-select" id="route_status" name="route_status" aria-label="Default select example">
+                                                <option selected>Update route status selected</option>
+                                                {% for c in route_status %}
+                                                    {% if c.id == i.route_status_id.id %}
+                                                        <option selected value="{{c.id}}">{{c.status_name}}</option>
+                                                    {% else %}
+                                                        <option value="{{c.id}}">{{c.status_name}}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+
+                                        <div class="col">
+                                            <label for="security_team" class="form-label">Security team</label>
+                                            <select class="form-select" id="security_team" name="security_team" disabled aria-label="Default select example">
+                                                <option selected>Select security team assigned</option>
+                                                {% for c in security_teams %}
+                                                    {% if c.id == i.securityteam_id.id %}
+                                                        <option selected value="{{c.id}}">{{c.team_name}}</option>
+                                                    {% else %}
+                                                        <option value="{{c.id}}">{{c.team_name}}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <button class="btn btn-secondary" type="submit" style="place-content: flex-end;">
+                                            Update
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </form>
+                    <div class="modal-footer" >
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+{% endblock %}

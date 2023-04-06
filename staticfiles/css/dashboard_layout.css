@@ -1,0 +1,8 @@
+#dashboard_main_container{
+    /*padding: 2em;*/
+    padding-left: 2em;
+    padding-right: 2em;
+}
+.dashboard_fonts{
+    font-weight: lighter;
+}

@@ -1,0 +1,181 @@
+{% extends 'layouts/dashboard_layout.html' %}
+{% load static %}
+
+{% block main_title %}Route overview{% endblock %}
+{% block topnav_title %}
+<nav aria-label="Breadcrumb" class="breadcrumb">
+    <ul>
+        <li><span aria-current="page">Route List</span></li>
+    </ul>
+</nav>
+{% endblock %}
+
+{% block page_content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+
+            </div>
+
+            <div class="col-8" id="add_connection_col">
+                {% if user.groups.all.0.name == "ADMIN" %}
+                    <a href="#">
+                        <button type="button" class="btn btn-secondary" data-mdb-toggle="modal" href="#create_route" style="float: right">  <i class="fa-sharp fa-solid fa-circle-plus me-2"></i>Route</button>
+                    </a>
+                {% else %}
+
+                {% endif %}
+
+            </div>
+        </div>
+        <br>
+        {% for i in routes %}
+            <div class="card bordered_card">
+                <div class="card-body">
+                    <a href="#route{{i.id}}" data-mdb-toggle="modal" data-mdb-target="#route{{i.id}}"><h6 class="connection_overview_header_text">{{ i.route_name }}</h6></a>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h6></h6>
+                        </div>
+                        <div class="col-md-9">
+                            {% if user.groups.all.0.name == "ADMIN" %}
+                                <a href="{% url 'delete_route' i.id %}">
+                                    <button type="button" class="btn btn-danger" style="float: right">  <i class="fa-sharp fa-solid fa-circle-plus me-2"></i>Delete</button>
+                                </a>
+                            {% else %}
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <br>
+        {% endfor %}
+
+        {% for i in routes %}
+            <div class="modal fade" id="route{{i.id}}" aria-hidden="true" aria-labelledby="route{{i.id}}" data-mdb-backdrop="static"
+                 tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="select_source">{{ i.route_name }}</h5>
+                            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="myBox">
+                                    <div class="boxItem">
+                                        <div class="card connection_card-2 bordered_card">
+                                            <div class="card-body">
+                                                <div class="card-title" style="font-size: 20px;">Starting Location</div>
+                                                <ul class="list-group list-group-light list-group-small">
+                                                        <li class="list-group-item px-3 border-0" style="font-size: 10px;">
+                                                            {{ i.starting_location }}
+                                                        </li>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="boxItem">
+                                        <div class="card connection_card-2 bordered_card">
+                                            <div class="card-body">
+                                                <div class="card-title" style="font-size: 20px;">Fleet</div>
+                                                <ul class="list-group list-group-light">
+                                                    <li class="list-group-item px-3 border-0" style="font-size: 10px;">
+                                                        {{ i.starting_fleet_id.fleet_name }}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="boxItem">
+                                            <div class="card connection_card-2 bordered_card">
+                                                <div class="card-body">
+                                                    <div class="card-title" style="font-size: 20px;">Destination</div>
+                                                    <ul class="list-group list-group-light list-group-small">
+                                                        <li class="list-group-item px-3 border-0" style="font-size: 10px;">
+                                                            {{ i.destination }}
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                            </div>
+                                    </div>
+                                  </div>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+        <!-- first model -->
+        <div class="modal fade" id="create_route" aria-hidden="true" aria-labelledby="route_select"
+            data-mdb-backdrop="static" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content p-4">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Create route</h5>
+                        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="save_route" method="post">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="form_boundary">
+                                    <div class="row mb-4">
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                <label for="txtRouteName" class="form-label">Route name</label>
+                                                <input type="text" class="form-control" id="txtRouteName" name="routename"
+                                                    placeholder="Route name">
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <label for="fleetid" class="form-label">Starting fleet</label>
+                                            <select class="form-select" id="fleetid" name="fleetid" aria-label="Default select example">
+                                                <option selected>Select fleet</option>
+                                                {% for i in fleets %}
+                                                    <option value="{{i.id}}">{{i.fleet_name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="txtStartingLocation" class="form-label">Starting location</label>
+                                        <input type="text" class="form-control" id="txtStartingLocation" name="startinglocation"
+                                            placeholder="Starting location">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="txtDestination" class="form-label">Destination</label>
+                                        <input type="text" class="form-control" id="txtDestination" name="destination"
+                                            placeholder="Destination">
+                                    </div>
+                                    <div class="mb-3">
+                                        <button class="btn btn-secondary" type="submit" style="place-content: flex-end;">
+                                            Create
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </form>
+                    <div class="modal-footer" style="height: 100px;">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

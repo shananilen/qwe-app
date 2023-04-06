@@ -1,0 +1,113 @@
+{% extends 'layouts/dashboard_layout.html' %}
+{% load static %}
+
+{% block main_title %}Vehicle overview{% endblock %}
+{% block topnav_title %}
+<nav aria-label="Breadcrumb" class="breadcrumb">
+    <ul>
+        <li><span aria-current="page">Vehicle List</span></li>
+    </ul>
+</nav>
+{% endblock %}
+
+{% block page_content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+
+            </div>
+
+            <div class="col-8" id="add_connection_col">
+                <a href="#">
+                    <button type="button" class="btn btn-secondary" data-mdb-toggle="modal" href="#create_vehicle" style="float: right">  <i class="fa-sharp fa-solid fa-circle-plus me-2"></i>Vehicle</button>
+                </a>
+            </div>
+        </div>
+        <br>
+        {% for i in vehicles %}
+            <div class="card bordered_card">
+                <div class="card-body">
+                    <a href="#"><h6 class="connection_overview_header_text">{{ i.vehicle_number }} - {{ i.model }}</h6></a>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h6><label>Manufacturer - </label> {{ i.make }}</h6>
+                        </div>
+                        <div class="col-md-9">
+                            <h6><label>Manufactured year - </label> {{ i.make_year }}</h6>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <br>
+        {% endfor %}
+
+        <!-- first model -->
+        <div class="modal fade" id="create_vehicle" aria-hidden="true" aria-labelledby="vehicle_select"
+            data-mdb-backdrop="static" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content p-4">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add vehicle</h5>
+                        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="save_vehicle" method="post">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="form_boundary">
+                                    <div class="row mb-4">
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                <label for="txtVehicleNo" class="form-label">Vehicle number</label>
+                                                <input type="text" class="form-control" id="txtVehicleNo" name="vehicleno"
+                                                    placeholder="Vehicle number">
+                                            </div>
+                                        </div>
+
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                <label for="txtManufacturer" class="form-label">Manufacturer</label>
+                                                <input type="text" class="form-control" id="txtManufacturer" name="make"
+                                                    placeholder="Manufacturer">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-4">
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                <label for="txtModel" class="form-label">Model</label>
+                                                <input type="text" class="form-control" id="txtModel" name="model"
+                                                    placeholder="Modal">
+                                            </div>
+                                        </div>
+
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                <label for="txtManufactureYear" class="form-label">Manufacture year</label>
+                                                <input type="text" class="form-control" id="txtManufactureYear" name="manufactureyear"
+                                                    placeholder="Manufacture year">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <button class="btn btn-secondary" type="submit" style="place-content: flex-end;">
+                                            Create
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </form>
+                    <div class="modal-footer" >
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
