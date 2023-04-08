@@ -1,0 +1,6 @@
+django
+django-extensions
+requests
+django-session-timeout
+python-decouple
+python-dotenv
